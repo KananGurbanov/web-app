@@ -1,5 +1,8 @@
 package az.edu.turinghackaton.controller;
 
+import az.edu.turinghackaton.model.dto.RestResponse;
+import az.edu.turinghackaton.model.dto.UserSignInRequestDto;
+import az.edu.turinghackaton.model.dto.UserSignInResponseDto;
 import az.edu.turinghackaton.model.dto.UserSignUpRequestDto;
 import az.edu.turinghackaton.service.UserService;
 import jakarta.validation.Valid;
@@ -27,8 +30,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest loginRequest) {
-        // Implement authentication logic here (e.g., using Spring Security)
-        return ResponseEntity.ok("Login successful.");
+    public ResponseEntity<RestResponse<UserSignInResponseDto>> login(@RequestBody @Valid
+                                                                         UserSignInRequestDto loginRequest) {
+        UserSignInResponseDto userSignInResponseDto = userService.signIn(loginRequest);
+        RestResponse<UserSignInResponseDto> restResponse = RestResponse.<UserSignInResponseDto>builder()
+                .status("SUCCESS")
+                .data(userSignInResponseDto)
+                .build();
+        return ResponseEntity.ok(restResponse);
     }
 }

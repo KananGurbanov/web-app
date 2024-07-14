@@ -2,6 +2,8 @@ package az.edu.turinghackaton.handler;
 
 
 import az.edu.turinghackaton.exceptions.EmailExistException;
+import az.edu.turinghackaton.exceptions.IncorrectPasswordException;
+import az.edu.turinghackaton.exceptions.UserNotFoundException;
 import az.edu.turinghackaton.model.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,17 +24,24 @@ public class CustomExceptionHandler {
     public ResponseEntity<ErrorResponse> handleException(EmailExistException ex,
                                                          WebRequest request) {
         log.error(ERROR_LOG, ex);
-        return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getCode(), ex.getMessage(), getPath(request));
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getCode(), ex.getMessage(), getPath(request));
 
     }
 
-//    @ExceptionHandler(Recor.class)
-//    public ResponseEntity<ErrorResponse> handleException(NoAvailableSeatException ex,
-//                                                         WebRequest request) {
-//        log.error(ERROR_LOG, ex);
-//
-//        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getCode(), ex.getMessage(), getPath(request));
-//    }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleException(UserNotFoundException ex,
+                                                         WebRequest request) {
+        log.error(ERROR_LOG, ex);
+
+        return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getCode(), ex.getMessage(), getPath(request));
+    }
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<ErrorResponse> handleException(IncorrectPasswordException ex,
+                                                         WebRequest request) {
+        log.error(ERROR_LOG, ex);
+
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getCode(), ex.getMessage(), getPath(request));
+    }
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(HttpStatus status,
                                                              String errorCode,
