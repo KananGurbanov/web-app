@@ -28,4 +28,7 @@ public class UserEntity {
 
     @Column(name = "PASSWORD")
     String password;
+
+    @Column(name = "STARS")
+    int stars;
 }
