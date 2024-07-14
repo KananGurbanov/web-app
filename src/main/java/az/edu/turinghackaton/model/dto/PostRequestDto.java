@@ -2,7 +2,6 @@ package az.edu.turinghackaton.model.dto;
 
 import az.edu.turinghackaton.model.enums.Title;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 
@@ -27,6 +26,6 @@ public record PostRequestDto(
         @NotBlank
         String jobType,
 
-        @JsonFormat(pattern = "yy/MM/dd HH:mm")
+        @JsonFormat(pattern = "yyyy/MM/dd HH:mm")
         LocalDateTime applicationDeadline) {
 }
