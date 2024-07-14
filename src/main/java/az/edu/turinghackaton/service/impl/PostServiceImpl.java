@@ -6,6 +6,7 @@ import az.edu.turinghackaton.model.dto.PostRequestDto;
 import az.edu.turinghackaton.model.dto.PostResponseDto;
 import az.edu.turinghackaton.model.enums.Title;
 import az.edu.turinghackaton.service.PostService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+
+    @Transactional
     @Override
     public void addPost(PostRequestDto dto) {
         PostEntity entity = new PostEntity();
@@ -45,6 +48,7 @@ public class PostServiceImpl implements PostService {
                 .build()).toList();
     }
 
+    @Transactional
     @Override
     public List<PostResponseDto> getPostsByTitle(Title title) {
         List<PostEntity> all = postRepository.findByTitle(title);
